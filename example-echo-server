@@ -1,0 +1,20 @@
+#!/usr/bin/python2.6
+import asyncore, logging
+from pybtapi import BTServer
+
+def my_echo_command(handler, data):
+    handler.send_success(data)
+
+# Main function
+if __name__ == "__main__":
+    print "PyBTApi Example Echo Server\n"
+
+    logging.basicConfig(level = logging.DEBUG)
+
+    btserver = BTServer(uuid = "00001101-0000-1000-8000-00805F9B34FB", service_name = "PyBTApi Echo")
+    btserver.add_command(command = "echo", function = my_echo_command)
+
+    try:
+        asyncore.loop()
+    except KeyboardInterrupt:
+        print "Quitting"
